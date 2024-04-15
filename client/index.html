@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile</title>
+</head>
+<body>
+    <h1>User Profile</h1>
+    <div id="profile">Loading...</div>
+
+    <script>
+        fetch('http://localhost:3000/user', {
+            method: 'GET',
+            credentials: 'include' // This is essential to include session cookies in the request
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('User not authenticated');
+            }
+            return response.json();
+        })
+        .then(data => {
+            document.getElementById('profile').textContent = 'Hi ' + data.name;
+        })
+        .catch(error => {
+            document.getElementById('profile').textContent = error.message;
+        });
+    </script>
+</body>
+</html>
